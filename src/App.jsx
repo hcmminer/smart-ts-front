@@ -1,51 +1,208 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Button } from '@/components/ui/button'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import HomePage from "./pages/HomePage";
-import SignUpPage from "./pages/SignUpPage";
-import LoginPage from "./pages/LoginPage";
+import { CalendarDateRangePicker } from '@/components/date-range-picker.jsx'
+import { MainNav } from '@/components/main-nav.jsx'
+import { Overview } from '@/components/overview.jsx'
+import { RecentSales } from '@/components/recent-sales.jsx'
+import { Search } from '@/components/search.jsx'
+import TeamSwitcher from '@/components/team-switcher.jsx'
+import { UserNav } from '@/components/user-nav.jsx'
+import { ThemeToggle } from '@/components/theme-toggle.jsx'
+import {useEffect, useState} from "react"
 
-import Navbar from "./components/Navbar";
-import { Toaster } from "react-hot-toast";
-import { useUserStore } from "./stores/useUserStore";
-import { useEffect } from "react";
-import LoadingSpinner from "./components/LoadingSpinner";
-import { useCartStore } from "./stores/useCartStore";
 
-function App() {
-    const { user, checkAuth, checkingAuth } = useUserStore();
-    const { getCartItems } = useCartStore();
+export default function DashboardPage() {
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
     useEffect(() => {
-        checkAuth();
-    }, [checkAuth]);
+        const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
+        setIsDarkMode(matchDark.matches);
+        const handleChange = (e) => setIsDarkMode(e.matches);
+        matchDark.addEventListener('change', handleChange);
 
-    useEffect(() => {
-        if (!user) return;
-
-        getCartItems();
-    }, [getCartItems, user]);
-
-    if (checkingAuth) return <LoadingSpinner />;
-
+        return () => matchDark.removeEventListener('change', handleChange);
+    }, []);
     return (
-        <div className='min-h-screen bg-gray-900 text-white relative overflow-hidden'>
-            {/* Background gradient */}
-            <div className='absolute inset-0 overflow-hidden'>
-                <div className='absolute inset-0'>
-                    <div className='absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.3)_0%,rgba(10,80,60,0.2)_45%,rgba(0,0,0,0.1)_100%)]' />
+        <>
+            <div className='md:hidden'>
+                <img
+                    src={isDarkMode ? './images/dashboard-dark.png' : './images/dashboard-light.png'}
+                    alt="Dashboard"
+                    width={1280}
+                    height={866}
+                    className="dashboard-image"
+                />
+            </div>
+            <div className='hidden flex-col md:flex'>
+                <div className='border-b'>
+                    <div className='flex h-16 items-center px-4'>
+                    <TeamSwitcher />
+                        <MainNav className='mx-6' />
+                        <div className='ml-auto flex items-center space-x-4'>
+                            <Search />
+                            <ThemeToggle />
+                            <UserNav />
+                        </div>
+                    </div>
+                </div>
+                <div className='flex-1 space-y-4 p-8 pt-6'>
+                    <div className='flex items-center justify-between space-y-2'>
+                        <h2 className='text-3xl font-bold tracking-tight'>Dashboard</h2>
+                        <div className='flex items-center space-x-2'>
+                            <CalendarDateRangePicker />
+                            <Button>Download</Button>
+                        </div>
+                    </div>
+                    <Tabs defaultValue='overview' className='space-y-4'>
+                        <TabsList>
+                            <TabsTrigger value='overview'>Overview</TabsTrigger>
+                            <TabsTrigger value='analytics' disabled>
+                                Analytics
+                            </TabsTrigger>
+                            <TabsTrigger value='reports' disabled>
+                                Reports
+                            </TabsTrigger>
+                            <TabsTrigger value='notifications' disabled>
+                                Notifications
+                            </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value='overview' className='space-y-4'>
+                            <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+                                <Card>
+                                    <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                                        <CardTitle className='text-sm font-medium'>
+                                            Total Revenue
+                                        </CardTitle>
+                                        <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            viewBox='0 0 24 24'
+                                            fill='none'
+                                            stroke='currentColor'
+                                            strokeLinecap='round'
+                                            strokeLinejoin='round'
+                                            strokeWidth='2'
+                                            className='h-4 w-4 text-muted-foreground'
+                                        >
+                                            <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+                                        </svg>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className='text-2xl font-bold'>$45,231.89</div>
+                                        <p className='text-xs text-muted-foreground'>
+                                            +20.1% from last month
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                                <Card>
+                                    <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                                        <CardTitle className='text-sm font-medium'>
+                                            Subscriptions
+                                        </CardTitle>
+                                        <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            viewBox='0 0 24 24'
+                                            fill='none'
+                                            stroke='currentColor'
+                                            strokeLinecap='round'
+                                            strokeLinejoin='round'
+                                            strokeWidth='2'
+                                            className='h-4 w-4 text-muted-foreground'
+                                        >
+                                            <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
+                                            <circle cx='9' cy='7' r='4' />
+                                            <path d='M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' />
+                                        </svg>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className='text-2xl font-bold'>+2350</div>
+                                        <p className='text-xs text-muted-foreground'>
+                                            +180.1% from last month
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                                <Card>
+                                    <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                                        <CardTitle className='text-sm font-medium'>Sales</CardTitle>
+                                        <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            viewBox='0 0 24 24'
+                                            fill='none'
+                                            stroke='currentColor'
+                                            strokeLinecap='round'
+                                            strokeLinejoin='round'
+                                            strokeWidth='2'
+                                            className='h-4 w-4 text-muted-foreground'
+                                        >
+                                            <rect width='20' height='14' x='2' y='5' rx='2' />
+                                            <path d='M2 10h20' />
+                                        </svg>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className='text-2xl font-bold'>+12,234</div>
+                                        <p className='text-xs text-muted-foreground'>
+                                            +19% from last month
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                                <Card>
+                                    <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                                        <CardTitle className='text-sm font-medium'>
+                                            Active Now
+                                        </CardTitle>
+                                        <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            viewBox='0 0 24 24'
+                                            fill='none'
+                                            stroke='currentColor'
+                                            strokeLinecap='round'
+                                            strokeLinejoin='round'
+                                            strokeWidth='2'
+                                            className='h-4 w-4 text-muted-foreground'
+                                        >
+                                            <path d='M22 12h-4l-3 9L9 3l-3 9H2' />
+                                        </svg>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className='text-2xl font-bold'>+573</div>
+                                        <p className='text-xs text-muted-foreground'>
+                                            +201 since last hour
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                            <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-7'>
+                                <Card className='col-span-4'>
+                                    <CardHeader>
+                                        <CardTitle>Overview</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className='pl-2'>
+                                        <Overview />
+                                    </CardContent>
+                                </Card>
+                                <Card className='col-span-3'>
+                                    <CardHeader>
+                                        <CardTitle>Recent Sales</CardTitle>
+                                        <CardDescription>
+                                            You made 265 sales this month.
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <RecentSales />
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </TabsContent>
+                    </Tabs>
                 </div>
             </div>
-
-            <div className='relative z-50 pt-20'>
-                <Navbar />
-                <Routes>
-                    <Route path='/' element={<HomePage />} />
-                    <Route path='/signup' element={!user ? <SignUpPage /> : <Navigate to='/' />} />
-                    <Route path='/login' element={!user ? <LoginPage /> : <Navigate to='/' />} />
-                </Routes>
-            </div>
-            <Toaster />
-        </div>
-    );
+        </>
+    )
 }
-
-export default App;
