@@ -15,7 +15,7 @@ import { RecentSales } from '@/components/recent-sales.jsx'
 import { Search } from '@/components/search.jsx'
 import TeamSwitcher from '@/components/team-switcher.jsx'
 import { UserNav } from '@/components/user-nav.jsx'
-import { ThemeToggle } from '@/components/theme-toggle.jsx'
+import {ModeToggle} from '@/components/mode-toggle.jsx'
 import {useEffect, useState} from "react"
 
 
@@ -48,7 +48,7 @@ export default function DashboardPage() {
                         <MainNav className='mx-6' />
                         <div className='ml-auto flex items-center space-x-4'>
                             <Search />
-                            <ThemeToggle />
+                            <ModeToggle />
                             <UserNav />
                         </div>
                     </div>
