@@ -16,6 +16,12 @@ import { Search } from '@/components/search.jsx'
 import TeamSwitcher from '@/components/team-switcher.jsx'
 import { UserNav } from '@/components/user-nav.jsx'
 import {ModeToggle} from '@/components/mode-toggle.jsx'
+import {Link, Routes, Route} from "react-router-dom";
+import SignUpPage from "@/pages-o/SignUpPage.jsx";
+import LoginPage from "@/pages-o/LoginPage.jsx";
+import HomePage from "@/pages-o/HomePage.jsx";
+import { Icons } from "@/components/icons"
+
 
 
 export default function DashboardPage() {
@@ -25,15 +31,33 @@ export default function DashboardPage() {
             <div className='hidden flex-col md:flex'>
                 <div className='border-b'>
                     <div className='flex h-16 items-center px-4'>
-                    <TeamSwitcher />
-                        <MainNav className='mx-6' />
+                        <TeamSwitcher/>
+                        <MainNav className='mx-6'/>
                         <div className='ml-auto flex items-center space-x-4'>
-                            <Search />
-                            <ModeToggle />
-                            <UserNav />
+                            <Search/>
+                            <ModeToggle/>
+                            <Button asChild variant="outline">
+                                <Link to="/signup">
+                                    <Icons.signUp className="mr-2 h-4 w-4" />
+                                    Sign Up
+                                </Link>
+                            </Button>
+
+                            <Button asChild variant="outline">
+                                <Link to="/login">
+                                    <Icons.login className="mr-2 h-4 w-4" />
+                                    Login
+                                </Link>
+                            </Button>
+                            <UserNav/>
                         </div>
                     </div>
                 </div>
+                <Routes>
+                    <Route path='/' element={<HomePage/>}/>
+                    <Route path='/signup' element={<SignUpPage/>}/>
+                    <Route path='/login' element={<LoginPage/>}/>
+                </Routes>
                 <div className='flex-1 space-y-4 p-8 pt-6'>
                     <div className='flex items-center justify-between space-y-2'>
                         <h2 className='text-3xl font-bold tracking-tight'>Dashboard</h2>
