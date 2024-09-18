@@ -73,7 +73,7 @@ export const useUserStore = create((set, get) => ({
     getUserFromGoogle : async () => {
         set({ loading: true });
         try {
-            const res = await axios.get("http://localhost:6005/login/sucess", { withCredentials: true });
+            const res = await axios.get("oauth/login/sucess", { withCredentials: true });
             console.log("response",res)
             set({ user: res.data, loading: false });
         } catch (error) {
@@ -83,9 +83,10 @@ export const useUserStore = create((set, get) => ({
     },
     logoutFromGoogle: async () => {
         try {
-            window.open("http://localhost:6005/logout", "_self");
+            window.open("oauth/logout", "_self");
+            set({ user: null });
         } catch (error) {
-            toast.error("Failed to log out");
+            toast.error(error.response?.data?.message || "An error occurred during logout");
         }
     }
 }));
