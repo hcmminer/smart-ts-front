@@ -1,7 +1,7 @@
 export const Icons = {
     logo: (props) => (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" {...props}>
-            <rect width="256" height="256" fill="none" />
+            <rect width="256" height="256" fill="none"/>
             <line
                 x1="208"
                 y1="128"
@@ -34,7 +34,8 @@ export const Icons = {
             width="23"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" />
+            <path
+                d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"/>
         </svg>
     ),
     gitHub: (props) => (
@@ -60,7 +61,8 @@ export const Icons = {
     ),
     aria: (props) => (
         <svg role="img" viewBox="0 0 24 24" fill="currentColor" {...props}>
-            <path d="M13.966 22.624l-1.69-4.281H8.122l3.892-9.144 5.662 13.425zM8.884 1.376H0v21.248zm15.116 0h-8.884L24 22.624Z" />
+            <path
+                d="M13.966 22.624l-1.69-4.281H8.122l3.892-9.144 5.662 13.425zM8.884 1.376H0v21.248zm15.116 0h-8.884L24 22.624Z"/>
         </svg>
     ),
     npm: (props) => (
@@ -140,37 +142,7 @@ export const Icons = {
             strokeLinejoin="round"
             {...props}
         >
-            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
         </svg>
-    ),
-    signUp: (props) => (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            {...props}
-        >
-            <path
-                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-            />
-            <path
-                d="M18 11h-2v2h-2v-2H12v-2h2V7h2v2h2v2z"
-            />
-        </svg>
-    ),
-    login: (props) => (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            {...props}
-        >
-            <path
-                d="M10 17v-2h4v-2h-4V7h4V5h-4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h4v-2h-4z"
-            />
-            <path
-                d="M21 12l-4-4v3H8v2h9v3l4-4z"
-            />
-        </svg>
-    ),
+    )
 }

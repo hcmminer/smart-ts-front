@@ -17,10 +17,10 @@ import TeamSwitcher from '@/components/team-switcher.jsx'
 import { UserNav } from '@/components/user-nav.jsx'
 import {ModeToggle} from '@/components/mode-toggle.jsx'
 import {Link, Routes, Route} from "react-router-dom";
-import SignUpPage from "@/pages-o/SignUpPage.jsx";
-import LoginPage from "@/pages-o/LoginPage.jsx";
+import SignUpPage from "@/pages/SignUpPage.jsx";
+import LoginPage from "@/pages/LoginPage.jsx";
 import HomePage from "@/pages-o/HomePage.jsx";
-import { Icons } from "@/components/icons"
+import {LogIn, UserPlus} from "lucide-react";
 
 
 
@@ -38,14 +38,14 @@ export default function DashboardPage() {
                             <ModeToggle/>
                             <Button asChild variant="outline">
                                 <Link to="/signup">
-                                    <Icons.signUp className="mr-2 h-4 w-4" />
+                                    <UserPlus className="mr-2 h-4 w-4" />
                                     Sign Up
                                 </Link>
                             </Button>
 
                             <Button asChild variant="outline">
                                 <Link to="/login">
-                                    <Icons.login className="mr-2 h-4 w-4" />
+                                    <LogIn className='mr-2 h-4 w-4' />
                                     Login
                                 </Link>
                             </Button>
