@@ -19,10 +19,6 @@ const SignUpPage = () => {
 		signup(formData);
 	};
 
-	const loginwithgoogle = ()=>{
-		window.open("http://localhost:6005/auth/google/callback","_self")
-	}
-
 	return (
 		<div className='flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
 			<motion.div

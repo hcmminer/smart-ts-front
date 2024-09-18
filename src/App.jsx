@@ -16,31 +16,12 @@ import { Search } from '@/components/search.jsx'
 import TeamSwitcher from '@/components/team-switcher.jsx'
 import { UserNav } from '@/components/user-nav.jsx'
 import {ModeToggle} from '@/components/mode-toggle.jsx'
-import {useEffect, useState} from "react"
 
 
 export default function DashboardPage() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
 
-    useEffect(() => {
-        const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
-        setIsDarkMode(matchDark.matches);
-        const handleChange = (e) => setIsDarkMode(e.matches);
-        matchDark.addEventListener('change', handleChange);
-
-        return () => matchDark.removeEventListener('change', handleChange);
-    }, []);
     return (
         <>
-            <div className='md:hidden'>
-                <img
-                    src={isDarkMode ? './images/dashboard-dark.png' : './images/dashboard-light.png'}
-                    alt="Dashboard"
-                    width={1280}
-                    height={866}
-                    className="dashboard-image"
-                />
-            </div>
             <div className='hidden flex-col md:flex'>
                 <div className='border-b'>
                     <div className='flex h-16 items-center px-4'>
