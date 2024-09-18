@@ -69,25 +69,6 @@ export const useUserStore = create((set, get) => ({
             set({ user: null, checkingAuth: false });
             throw error;
         }
-    },
-    getUserFromGoogle : async () => {
-        set({ loading: true });
-        try {
-            const res = await axios.get("oauth/login/sucess", { withCredentials: true });
-            console.log("response",res)
-            set({ user: res.data, loading: false });
-        } catch (error) {
-            set({ loading: false });
-            toast.error(error.response.data.message || "An error occurred");
-        }
-    },
-    logoutFromGoogle: async () => {
-        try {
-            window.open("oauth/logout", "_self");
-            set({ user: null });
-        } catch (error) {
-            toast.error(error.response?.data?.message || "An error occurred during logout");
-        }
     }
 }));
 

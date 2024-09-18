@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import {Icons} from "@/components/icons.jsx";
+import {GoogleLogin} from "@react-oauth/google";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -22,9 +22,20 @@ const LoginPage = () => {
         login(email, password);
     };
 
-    const loginWithGoogle = ()=>{
-        window.open("http://localhost:6005/auth/google/callback","_self")
-    }
+    const handleLoginSuccess = (response) => {
+        fetch("http://localhost:5000/auth/google-login", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${response.credential}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                // Lưu thông tin người dùng và JWT vào localStorage hoặc context
+            })
+            .catch(error => console.log(error));
+    };
 
     return (
         <div className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
@@ -88,8 +99,11 @@ const LoginPage = () => {
                     </CardContent>
                     <CardFooter className="flex flex-col space-y-4">
                         <Button variant="outline" className="w-full"
-                                onClick={loginWithGoogle}>
-                            <Icons.google className="mr-2 w-4 h-4"/>
+                                >
+                            <GoogleLogin
+                                onSuccess={handleLoginSuccess}
+                                onFailure={(error) => console.log(error)}
+                            />
                             Login with Google
                         </Button>
                         <p className="text-sm text-center text-muted-foreground w-full">
