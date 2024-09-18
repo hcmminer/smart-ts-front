@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import CategoryItem from "../components-o/CategoryItem";
 import { useProductStore } from "../stores/useProductStore";
 import FeaturedProducts from "../components-o/FeaturedProducts";
+import {useUserStore} from "@/stores/useUserStore.js";
 
 const categories = [
     { href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
@@ -19,6 +20,12 @@ const HomePage = () => {
     useEffect(() => {
         fetchFeaturedProducts();
     }, [fetchFeaturedProducts]);
+
+    useEffect(() => {
+        getUserFromGoogle()
+    }, [])
+
+    const { getUserFromGoogle, loading } = useUserStore();
 
     return (
         <div className='relative min-h-screen text-white overflow-hidden'>

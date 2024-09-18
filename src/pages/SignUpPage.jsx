@@ -25,6 +25,10 @@ const SignUpPage = () => {
         signup(formData);
     };
 
+    const signUpWithgoogle = ()=>{
+        window.open("http://localhost:6005/auth/google/callback","_self")
+    }
+
     return (
         <div className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
             <motion.div
@@ -116,7 +120,8 @@ const SignUpPage = () => {
                         </form>
                     </CardContent>
                     <CardFooter className="flex flex-col space-y-4">
-                        <Button variant="outline" className="w-full">
+                        <Button variant="outline" className="w-full"
+                                onClick={signUpWithgoogle}>
                             <Icons.google className="mr-2 w-4 h-4"/>
                             Sign up with Google
                         </Button>

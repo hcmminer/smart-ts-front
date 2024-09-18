@@ -70,6 +70,24 @@ export const useUserStore = create((set, get) => ({
             throw error;
         }
     },
+    getUserFromGoogle : async () => {
+        set({ loading: true });
+        try {
+            const res = await axios.get("http://localhost:6005/login/sucess", { withCredentials: true });
+            console.log("response",res)
+            set({ user: res.data, loading: false });
+        } catch (error) {
+            set({ loading: false });
+            toast.error(error.response.data.message || "An error occurred");
+        }
+    },
+    logoutFromGoogle: async () => {
+        try {
+            window.open("http://localhost:6005/logout", "_self");
+        } catch (error) {
+            toast.error("Failed to log out");
+        }
+    }
 }));
 
 // TODO: Implement the axios interceptors for refreshing access token

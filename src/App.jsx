@@ -9,50 +9,22 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { CalendarDateRangePicker } from '@/components/date-range-picker.jsx'
-import { MainNav } from '@/components/main-nav.jsx'
 import { Overview } from '@/components/overview.jsx'
 import { RecentSales } from '@/components/recent-sales.jsx'
-import { Search } from '@/components/search.jsx'
-import TeamSwitcher from '@/components/team-switcher.jsx'
-import { UserNav } from '@/components/user-nav.jsx'
-import {ModeToggle} from '@/components/mode-toggle.jsx'
-import {Link, Routes, Route} from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import SignUpPage from "@/pages/SignUpPage.jsx";
 import LoginPage from "@/pages/LoginPage.jsx";
 import HomePage from "@/pages-o/HomePage.jsx";
-import {LogIn, UserPlus} from "lucide-react";
+import Navbar from "@/components/Navbar.jsx";
 
 
 
-export default function DashboardPage() {
+export default function App() {
 
     return (
         <>
             <div className='hidden flex-col md:flex'>
-                <div className='border-b'>
-                    <div className='flex h-16 items-center px-4'>
-                        <TeamSwitcher/>
-                        <MainNav className='mx-6'/>
-                        <div className='ml-auto flex items-center space-x-4'>
-                            <Search/>
-                            <ModeToggle/>
-                            <Button asChild variant="outline">
-                                <Link to="/signup">
-                                    <UserPlus className="mr-2 h-4 w-4" />
-                                    Sign Up
-                                </Link>
-                            </Button>
-
-                            <Button asChild variant="outline">
-                                <Link to="/login">
-                                    <LogIn className='mr-2 h-4 w-4' />
-                                    Login
-                                </Link>
-                            </Button>
-                            <UserNav/>
-                        </div>
-                    </div>
-                </div>
+                <Navbar/>
                 <Routes>
                     <Route path='/' element={<HomePage/>}/>
                     <Route path='/signup' element={<SignUpPage/>}/>
