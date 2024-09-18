@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {Icons} from "@/components/icons.jsx";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -81,7 +82,11 @@ const LoginPage = () => {
                             </Button>
                         </form>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="flex flex-col space-y-4">
+                        <Button variant="outline" className="w-full">
+                            <Icons.google className="mr-2 w-4 h-4"/>
+                            Login with Google
+                        </Button>
                         <p className="text-sm text-center text-muted-foreground w-full">
                             Not a member?{" "}
                             <Link to="/signup" className="font-medium text-primary hover:underline">
