@@ -1,6 +1,5 @@
 import {  UserPlus, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useUserStore } from "../stores/useUserStore";
 import TeamSwitcher from "@/components/team-switcher.jsx";
 import {MainNav} from "@/components/main-nav.jsx";
 import {Search} from "@/components/search.jsx";

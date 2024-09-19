@@ -10,18 +10,12 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import {useUserStore} from "@/stores/useUserStore.js";
 
 export function UserNav() {
 
-  const handleLogout = () => {
-    fetch("http://localhost:5000/auth/logout")
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-          // Xóa thông tin người dùng và JWT khỏi localStorage hoặc context
-        })
-        .catch(error => console.log(error));
-  };
+  const { logout } = useUserStore();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -58,7 +52,7 @@ export function UserNav() {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownMenuItem onClick={logout}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

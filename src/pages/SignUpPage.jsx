@@ -18,28 +18,11 @@ const SignUpPage = () => {
         confirmPassword: "",
     });
 
-    const { signup, loading } = useUserStore();
+    const { signup, handleGoogleAuthSuccess ,loading } = useUserStore();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         signup(formData);
-    };
-
-    const handleRegisterSuccess = async (response) => {
-        try {
-            const res = await fetch("http://localhost:5000/auth/google/register/callback", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${response.credential}`
-                }
-            });
-
-            const data = await res.json();
-            console.log(data);
-            // Lưu thông tin người dùng và JWT vào localStorage hoặc context
-        } catch (error) {
-            console.log(error);
-        }
     };
 
 
@@ -137,8 +120,8 @@ const SignUpPage = () => {
                         <Button variant="outline" className="w-full"
                                 >
                             <GoogleLogin
-                                onSuccess={handleRegisterSuccess}
-                                onFailure={(error) => console.log(error)}
+                                onSuccess={handleGoogleAuthSuccess}
+                                onError={(error) => console.log(error)}
                             />
                             Sign up with Google
                         </Button>

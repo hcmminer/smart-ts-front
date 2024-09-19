@@ -14,27 +14,12 @@ const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { login, loading } = useUserStore();
+    const {login, handleGoogleAuthSuccess, loading} = useUserStore();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email, password);
         login(email, password);
-    };
-
-    const handleLoginSuccess = (response) => {
-        fetch("http://localhost:5000/auth/google-login", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${response.credential}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                // Lưu thông tin người dùng và JWT vào localStorage hoặc context
-            })
-            .catch(error => console.log(error));
     };
 
     return (
@@ -101,8 +86,8 @@ const LoginPage = () => {
                         <Button variant="outline" className="w-full"
                                 >
                             <GoogleLogin
-                                onSuccess={handleLoginSuccess}
-                                onFailure={(error) => console.log(error)}
+                                onSuccess={handleGoogleAuthSuccess}
+                                onError={(error) => console.log(error)}
                             />
                             Login with Google
                         </Button>
