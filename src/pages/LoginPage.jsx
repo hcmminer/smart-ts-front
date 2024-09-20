@@ -83,12 +83,21 @@ const LoginPage = () => {
                         </form>
                     </CardContent>
                     <CardFooter className="flex flex-col space-y-4">
-                        <GoogleLogin
-                            onSuccess={handleGoogleAuthSuccess}
-                            onError={(error) => console.log(error)
-                            }
-                            text={"signin_with"}
-                        />
+                        {loading ? (
+                            <>
+                                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                                Loading...
+                            </>
+                        ) : (
+                            <>
+                                <GoogleLogin
+                                    onSuccess={handleGoogleAuthSuccess}
+                                    onError={(error) => console.log(error)
+                                    }
+                                    text={"signin_with"}
+                                />
+                            </>
+                        )}
                         <p className="text-sm text-center text-muted-foreground w-full">
                             Not a member?{" "}
                             <Link to="/signup" className="font-medium text-primary hover:underline">

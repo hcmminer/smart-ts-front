@@ -80,13 +80,13 @@ export const useUserStore = create((set, get) => ({
 
         try {
             // Send the token received from Google to the backend
-            const res = await axios.get("/auth/google-auth-success", {
-                headers: {
-                    "Authorization": `Bearer ${response.credential}`
-                }
-            });
+            // const res = await axios.get("/auth/google-auth-success", {
+            //     headers: {
+            //         "Authorization": `Bearer ${response.credential}`
+            //     }
+            // });
 
-            set({ user: res.data, loading: false }); // Set the user and stop loading
+            set({ user: true, loading: false }); // Set the user and stop loading
         } catch (error) {
             set({ loading: false }); // Stop loading
             console.error("Authentication error:", error);
