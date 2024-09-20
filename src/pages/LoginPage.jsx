@@ -83,18 +83,16 @@ const LoginPage = () => {
                         </form>
                     </CardContent>
                     <CardFooter className="flex flex-col space-y-4">
-                        <Button variant="outline" className="w-full"
-                                >
-                            <GoogleLogin
-                                onSuccess={handleGoogleAuthSuccess}
-                                onError={(error) => console.log(error)}
-                            />
-                            Login with Google
-                        </Button>
+                        <GoogleLogin
+                            onSuccess={handleGoogleAuthSuccess}
+                            onError={(error) => console.log(error)
+                            }
+                            text={"signin_with"}
+                        />
                         <p className="text-sm text-center text-muted-foreground w-full">
                             Not a member?{" "}
                             <Link to="/signup" className="font-medium text-primary hover:underline">
-                                Sign up now <ArrowRight className="inline h-4 w-4" />
+                                Sign up now <ArrowRight className="inline h-4 w-4"/>
                             </Link>
                         </p>
                     </CardFooter>

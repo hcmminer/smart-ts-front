@@ -25,6 +25,8 @@ const SignUpPage = () => {
         signup(formData);
     };
 
+    const [useOneTap, setUseOneTap] = useState(true);
+
 
     return (
         <div className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
@@ -117,18 +119,15 @@ const SignUpPage = () => {
                         </form>
                     </CardContent>
                     <CardFooter className="flex flex-col space-y-4">
-                        <Button variant="outline" className="w-full"
-                                >
-                            <GoogleLogin
-                                onSuccess={handleGoogleAuthSuccess}
-                                onError={(error) => console.log(error)}
-                            />
-                            Sign up with Google
-                        </Button>
+                        <GoogleLogin
+                            onSuccess={handleGoogleAuthSuccess}
+                            onError={(error) => console.log(error)}
+                            text="signup_with"
+                        />
                         <p className="text-sm text-center text-muted-foreground">
                             Already have an account?{" "}
                             <Link to="/login" className="font-medium text-primary hover:underline">
-                                Login here <ArrowRight className="inline h-4 w-4" />
+                                Login here <ArrowRight className="inline h-4 w-4"/>
                             </Link>
                         </p>
                     </CardFooter>
