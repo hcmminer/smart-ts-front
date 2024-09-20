@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
       <BrowserRouter>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-              <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+              <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
                   <App/>
               </GoogleOAuthProvider>
           </ThemeProvider>

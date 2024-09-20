@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const initialState = {
   theme: 'system',
@@ -9,7 +9,7 @@ const ThemeProviderContext = createContext(initialState);
 
 export function ThemeProvider({
                                 children,
-                                defaultTheme = 'system',
+                                defaultTheme,
                                 storageKey = 'vite-ui-theme',
                                 ...props
                               }) {
