@@ -25,9 +25,6 @@ const SignUpPage = () => {
         signup(formData);
     };
 
-    const [useOneTap, setUseOneTap] = useState(true);
-
-
     return (
         <div className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
             <motion.div
