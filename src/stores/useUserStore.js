@@ -74,26 +74,6 @@ export const useUserStore = create((set, get) => ({
             throw error;
         }
     },
-
-    handleGoogleAuthSuccess: async (response) => {
-        set({ loading: true }); // Set loading state to true
-
-        try {
-            // Send the token received from Google to the backend
-            // const res = await axios.get("/auth/google-auth-success", {
-            //     headers: {
-            //         "Authorization": `Bearer ${response.credential}`
-            //     }
-            // });
-
-            set({ user: true, loading: false }); // Set the user and stop loading
-        } catch (error) {
-            set({ loading: false }); // Stop loading
-            console.error("Authentication error:", error);
-            toast.error(error.response?.data?.message || "An error occurred during authentication"); // Show error
-        }
-    },
-
 }));
 
 // TODO: Implement the axios interceptors for refreshing access token
