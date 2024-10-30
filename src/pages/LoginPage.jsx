@@ -102,7 +102,7 @@ const LoginPage = () => {
                                 </div>
                                 <Button
                                     onClick={auth}
-                                    className="relative flex items-center w-80 border border-gray-300 rounded-lg text-lg font-normal bg-white h-12 transition-shadow duration-150 ease-in-out hover:shadow-inner hover:bg-gray-50 text-gray-700 mb-2 px-2 pl-13"
+                                    className="relative flex items-center w-80 border border-gray-300 rounded-lg text-lg bg-white h-12 transition-shadow duration-150 ease-in-out hover:shadow-inner hover:bg-gray-50 text-gray-700 mb-2 px-2 pl-13"
                                 >
                                     <span className="absolute left-6 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                         {Icons.google({ width: 24, height: 24 })}
