@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import {GoogleLogin} from "@react-oauth/google";
 
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
@@ -18,7 +17,19 @@ const SignUpPage = () => {
         confirmPassword: "",
     });
 
-    const { signup, handleGoogleAuthSuccess ,loading } = useUserStore();
+    const { signup ,loading } = useUserStore();
+
+    async function auth(){
+        // chay vao be
+        console.log("chay vao be")
+        const response =await fetch('http://127.0.0.1:5000/api/oauth/google/login',{method:'post'});
+        console.log("chay vao be >>")
+
+        const data = await response.json();
+        console.log("data:url",data.url);
+        //data:url https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20%20openid%20&prompt=consent&response_type=code&client_id=530659988419-e3mgg4ve383meu3bd3jhhqioc28frk44.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Foauth
+        window.location.href = data.url;
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -118,16 +129,14 @@ const SignUpPage = () => {
                     <CardFooter className="flex flex-col space-y-4">
                         {loading ? (
                             <>
-                                <Loader className="mr-2 h-4 w-4 animate-spin"/>
+                                <Loader className="mr-2 h-4 w-4 animate-spin" />
                                 Loading...
                             </>
                         ) : (
                             <>
-                                <GoogleLogin
-                                    onSuccess={handleGoogleAuthSuccess}
-                                    onError={(error) => console.log(error)}
-                                    text="signup_with"
-                                />
+                                <Button type="submit" onClick={() => auth()}>
+                                    Đăng ký với Google
+                                </Button>
                             </>
                         )}
                         <p className="text-sm text-center text-muted-foreground">

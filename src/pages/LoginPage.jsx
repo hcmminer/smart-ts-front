@@ -102,19 +102,16 @@ const LoginPage = () => {
                             </>
                         ) : (
                             <>
-                                <Link to="/signup" className="font-medium text-primary hover:underline">
-                                    Sign up now <ArrowRight className="inline h-4 w-4"/>
-                                </Link>
-                                <div>
-                                    <button className="btn-auth" type="button" onClick={() => auth()}>
-                                        Đăng nhập với Google
-                                    </button>
-                                </div>
+                                <Button type="submit" onClick={() => auth()}>
+                                    Đăng nhập với Google
+                                </Button>
                             </>
                         )}
                         <p className="text-sm text-center text-muted-foreground w-full">
                         Not a member?{" "}
-
+                            <Link to="/signup" className="font-medium text-primary hover:underline">
+                                Sign up now <ArrowRight className="inline h-4 w-4"/>
+                            </Link>
                         </p>
                     </CardFooter>
                 </Card>
