@@ -16,7 +16,7 @@ export default function App() {
                 <Navbar/>
                 <Routes>
                     <Route path='/' element={<HomePage/>}/>
-                    <Route path='/examples/dashboard' element={<DashBoard/>}/>
+                    <Route path='/dashboard' element={<DashBoard/>}/>
                     <Route path='/signup' element={<SignUpPage/>}/>
                     <Route path='/login' element={<LoginPage/>}/>
                 </Routes>

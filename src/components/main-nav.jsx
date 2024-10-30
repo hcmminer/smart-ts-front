@@ -16,7 +16,7 @@ export function MainNav({
     // Redirect to /examples/dashboard if the user is logged in
     useEffect(() => {
         if (user) {
-            navigate('/examples/dashboard');
+            navigate('/dashboard');
         }
     }, [user, navigate]);
     return (
@@ -25,25 +25,25 @@ export function MainNav({
             {...props}
         >
             {user && <Link
-                to={'/examples/dashboard'}
+                to={'/dashboard'}
                 className='text-sm font-medium transition-colors hover:text-primary'
             >
                 dashboard
             </Link>}
             <Link
-                to={'/examples/dashboard'}
+                to={'/customers'}
                 className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
             >
                 Customers
             </Link>
             <Link
-                to={'/examples/dashboard'}
+                to={'/products'}
                 className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
             >
                 Products
             </Link>
             <Link
-                to={'/examples/dashboard'}
+                to={'/settings'}
                 className='text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
             >
                 Settings
