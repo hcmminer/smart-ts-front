@@ -5,33 +5,102 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx
 import {Overview} from "@/components/overview.jsx";
 import {RecentSales} from "@/components/recent-sales.jsx";
 import {useEffect, useState} from "react";
+import { jwtDecode } from "jwt-decode";
 
 const DashBoard = () => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null); // State để lưu thông tin người dùng
+    const [accessToken, setAccessToken] = useState(null);
+    const [refreshToken, setRefreshToken] = useState(null);
 
     useEffect(() => {
-        // Lấy các tham số từ URL sau khi callback
+        // Lấy các tham số từ URL
         const params = new URLSearchParams(window.location.search);
-        const email = params.get('email');
-        const name = params.get('name');
+        const accessTokenFromUrl = params.get('accessToken');
+        const refreshTokenFromUrl = params.get('refreshToken');
 
-        // Nếu có email và name, lưu vào state
-        if (email && name) {
-            setUser({ email, name });
-            console.log("User logged in:", { email, name });
+        if (accessTokenFromUrl && refreshTokenFromUrl) {
+            setAccessToken(accessTokenFromUrl);
+            setRefreshToken(refreshTokenFromUrl);
+            saveTokens(accessTokenFromUrl, refreshTokenFromUrl);
+            decodeAndSetUser(accessTokenFromUrl);
         }
     }, []);
+
+    // Hàm lưu token vào localStorage
+    const saveTokens = (accessToken, refreshToken) => {
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+    };
+
+    // Hàm giải mã và lưu thông tin người dùng vào state
+    const decodeAndSetUser = (token) => {
+        const decodedToken = jwtDecode(token);
+        setUser(decodedToken); // Lưu thông tin người dùng vào state
+    };
+
+    // Hàm làm mới token
+    const refreshAccessToken = async () => {
+        const storedRefreshToken = localStorage.getItem('refreshToken');
+
+        if (!storedRefreshToken) {
+            console.log("No refresh token available");
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/api/refresh-token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${storedRefreshToken}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to refresh token");
+            }
+
+            const { accessToken: newAccessToken } = await response.json();
+            setAccessToken(newAccessToken);
+            saveTokens(newAccessToken, storedRefreshToken); // Lưu token mới vào localStorage
+            decodeAndSetUser(newAccessToken); // Giải mã và cập nhật thông tin người dùng
+        } catch (error) {
+            console.error("Error refreshing access token:", error);
+        }
+    };
+
+    // Kiểm tra token khi component mount
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const token = localStorage.getItem('accessToken');
+            if (token) {
+                const decoded = jwtDecode(token);
+                const expTime = decoded.exp * 1000; // Chuyển đổi thời gian hết hạn từ giây sang mili giây
+                const currentTime = Date.now();
+
+                // Nếu token gần hết hạn, làm mới token
+                if (expTime - currentTime < 5 * 60 * 1000) { // Kiểm tra 5 phút trước khi hết hạn
+                    refreshAccessToken();
+                }
+            }
+        }, 60000); // Kiểm tra mỗi phút
+
+        return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+    }, []);
+
     return (
         <div className='flex-1 space-y-4 p-8 pt-6'>
-            <div>
-                {user ? (
-                    <div>
-                        <h1>Welcome, {user.name}</h1>
-                        <p>Email: {user.email}</p>
-                    </div>
-                ) : (
-                    <p>Loading user information...</p>
-                )}
+            <div className='flex-1 space-y-4 p-8 pt-6'>
+                <div>
+                    {user ? (
+                        <div>
+                            <h1>Welcome, {user.name}</h1>
+                            <p>Email: {user.email}</p>
+                        </div>
+                    ) : (
+                        <p>Loading user information...</p>
+                    )}
+                </div>
             </div>
             <div className='flex items-center justify-between space-y-2'>
                 <h2 className='text-3xl font-bold tracking-tight'>Dashboard</h2>
