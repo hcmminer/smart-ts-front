@@ -37,16 +37,20 @@ export const useUserStore = create((set, get) => ({
         }
     },
 
-    logout: async () => {
+    logout:  () => {
         try {
-            await googleLogout();
-            await axios.post("/auth/logout");
-            set({ user: null });
+            // Xóa token khỏi local storage
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+
+            // Thông báo cho người dùng logout thành công
             toast.success("Logged out successfully!");
         } catch (error) {
+            // Xử lý lỗi nếu có
             toast.error(error.response?.data?.message || "An error occurred during logout");
         }
     },
+
 
     checkAuth: async () => {
         set({ checkingAuth: true });

@@ -6,11 +6,11 @@ import {Search} from "@/components/search.jsx";
 import {ModeToggle} from "@/components/mode-toggle.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {UserNav} from "@/components/user-nav.jsx";
-import {useUserStore} from "@/stores/useUserStore.js";
+import {useToken} from "../../context/TokenContext.js";
 
 const Navbar = () => {
 
-    const {user} = useUserStore()
+    const { user } = useToken();
     return (
         <div className='border-b'>
             <div className='flex h-16 items-center px-4'>
