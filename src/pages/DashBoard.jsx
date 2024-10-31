@@ -15,27 +15,41 @@ const DashBoard = () => {
     useEffect(() => {
         // Lấy các tham số từ URL
         const params = new URLSearchParams(window.location.search);
-        const accessTokenFromUrl = params.get('accessToken');
-        const refreshTokenFromUrl = params.get('refreshToken');
+        const accessTokenFromUrl = params.get("accessToken");
+        const refreshTokenFromUrl = params.get("refreshToken");
 
         if (accessTokenFromUrl && refreshTokenFromUrl) {
             setAccessToken(accessTokenFromUrl);
             setRefreshToken(refreshTokenFromUrl);
             saveTokens(accessTokenFromUrl, refreshTokenFromUrl);
             decodeAndSetUser(accessTokenFromUrl);
+
+            // Xóa token khỏi URL để tăng bảo mật
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else {
+            // Nếu không có token trong URL, kiểm tra localStorage
+            const storedAccessToken = localStorage.getItem("accessToken");
+            const storedRefreshToken = localStorage.getItem("refreshToken");
+
+            if (storedAccessToken && storedRefreshToken) {
+                setAccessToken(storedAccessToken);
+                setRefreshToken(storedRefreshToken);
+                decodeAndSetUser(storedAccessToken);
+            }
         }
     }, []);
 
     // Hàm lưu token vào localStorage
     const saveTokens = (accessToken, refreshToken) => {
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
     };
 
     // Hàm giải mã và lưu thông tin người dùng vào state
     const decodeAndSetUser = (token) => {
         const decodedToken = jwtDecode(token);
-        setUser(decodedToken); // Lưu thông tin người dùng vào state
+        console.log(decodedToken);
+        setUser(decodedToken.user); // Lưu thông tin người dùng vào state
     };
 
     // Hàm làm mới token
@@ -48,7 +62,7 @@ const DashBoard = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/refresh-token', {
+            const response = await fetch('http://localhost:5000/api/auth/refresh-token', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -96,6 +110,15 @@ const DashBoard = () => {
                         <div>
                             <h1>Welcome, {user.name}</h1>
                             <p>Email: {user.email}</p>
+                            <p>Role: {user.role}</p>
+                            {/* Hiển thị ảnh đại diện */}
+                            {user.image && (
+                                <img
+                                    src={user.image}
+                                    alt={`${user.name}'s avatar`}
+                                    className="w-16 h-16 rounded-full mt-4"
+                                />
+                            )}
                         </div>
                     ) : (
                         <p>Loading user information...</p>
