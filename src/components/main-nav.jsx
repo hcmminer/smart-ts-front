@@ -1,15 +1,15 @@
 import {Link, useNavigate} from 'react-router-dom'
 
 import {cn} from '@/lib/utils'
-import {useUserStore} from "@/stores/useUserStore.js";
 import {useEffect} from "react";
+import {useToken} from "../../context/TokenContext.js";
 
 
 export function MainNav({
                             className,
                             ...props
                         }) {
-    const {user} = useUserStore();
+    const {user} = useToken();
 
     const navigate = useNavigate();
 
