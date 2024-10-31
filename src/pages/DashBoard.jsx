@@ -4,10 +4,35 @@ import {CalendarDateRangePicker} from "@/components/date-range-picker.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Overview} from "@/components/overview.jsx";
 import {RecentSales} from "@/components/recent-sales.jsx";
+import {useEffect, useState} from "react";
 
 const DashBoard = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // Lấy các tham số từ URL sau khi callback
+        const params = new URLSearchParams(window.location.search);
+        const email = params.get('email');
+        const name = params.get('name');
+
+        // Nếu có email và name, lưu vào state
+        if (email && name) {
+            setUser({ email, name });
+            console.log("User logged in:", { email, name });
+        }
+    }, []);
     return (
         <div className='flex-1 space-y-4 p-8 pt-6'>
+            <div>
+                {user ? (
+                    <div>
+                        <h1>Welcome, {user.name}</h1>
+                        <p>Email: {user.email}</p>
+                    </div>
+                ) : (
+                    <p>Loading user information...</p>
+                )}
+            </div>
             <div className='flex items-center justify-between space-y-2'>
                 <h2 className='text-3xl font-bold tracking-tight'>Dashboard</h2>
                 <div className='flex items-center space-x-2'>

@@ -15,10 +15,13 @@ const LoginPage = () => {
     const { loading, login } = useUserStore();
 
     const auth = async () => {
-        console.log("Initiating Google login...");
-        const response = await fetch('http://127.0.0.1:5000/api/oauth/google/login', { method: 'POST' });
-        const data = await response.json();
-        window.location.href = data.url;  // Redirect to Google OAuth
+        try {
+            const response = await fetch('http://127.0.0.1:5000/api/oauth/google/login', { method: 'POST' });
+            const data = await response.json();
+            window.location.href = data.url; // Redirect người dùng đến trang đăng nhập Google
+        } catch (error) {
+            console.error("Error during Google login initiation", error);
+        }
     };
 
     const handleSubmit = (e) => {

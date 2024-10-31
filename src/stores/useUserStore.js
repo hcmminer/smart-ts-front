@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import axios from "../lib/axios";
 import { toast } from "react-hot-toast";
-import {googleLogout} from "@react-oauth/google";
 
 export const useUserStore = create((set, get) => ({
     user: null,
