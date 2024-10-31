@@ -4,103 +4,10 @@ import {CalendarDateRangePicker} from "@/components/date-range-picker.jsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Overview} from "@/components/overview.jsx";
 import {RecentSales} from "@/components/recent-sales.jsx";
-import {useEffect, useState} from "react";
-import { jwtDecode } from "jwt-decode";
+import {useToken} from "../../context/TokenContext.js";
 
 const DashBoard = () => {
-    const [user, setUser] = useState(null); // State để lưu thông tin người dùng
-    const [accessToken, setAccessToken] = useState(null);
-    const [refreshToken, setRefreshToken] = useState(null);
-
-    useEffect(() => {
-        // Lấy các tham số từ URL
-        const params = new URLSearchParams(window.location.search);
-        const accessTokenFromUrl = params.get("accessToken");
-        const refreshTokenFromUrl = params.get("refreshToken");
-
-        if (accessTokenFromUrl && refreshTokenFromUrl) {
-            setAccessToken(accessTokenFromUrl);
-            setRefreshToken(refreshTokenFromUrl);
-            saveTokens(accessTokenFromUrl, refreshTokenFromUrl);
-            decodeAndSetUser(accessTokenFromUrl);
-
-            // Xóa token khỏi URL để tăng bảo mật
-            window.history.replaceState({}, document.title, window.location.pathname);
-        } else {
-            // Nếu không có token trong URL, kiểm tra localStorage
-            const storedAccessToken = localStorage.getItem("accessToken");
-            const storedRefreshToken = localStorage.getItem("refreshToken");
-
-            if (storedAccessToken && storedRefreshToken) {
-                setAccessToken(storedAccessToken);
-                setRefreshToken(storedRefreshToken);
-                decodeAndSetUser(storedAccessToken);
-            }
-        }
-    }, []);
-
-    // Hàm lưu token vào localStorage
-    const saveTokens = (accessToken, refreshToken) => {
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-    };
-
-    // Hàm giải mã và lưu thông tin người dùng vào state
-    const decodeAndSetUser = (token) => {
-        const decodedToken = jwtDecode(token);
-        console.log(decodedToken);
-        setUser(decodedToken.user); // Lưu thông tin người dùng vào state
-    };
-
-    // Hàm làm mới token
-    const refreshAccessToken = async () => {
-        const storedRefreshToken = localStorage.getItem('refreshToken');
-
-        if (!storedRefreshToken) {
-            console.log("No refresh token available");
-            return;
-        }
-
-        try {
-            const response = await fetch('http://localhost:5000/api/auth/refresh-token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${storedRefreshToken}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to refresh token");
-            }
-
-            const { accessToken: newAccessToken } = await response.json();
-            setAccessToken(newAccessToken);
-            saveTokens(newAccessToken, storedRefreshToken); // Lưu token mới vào localStorage
-            decodeAndSetUser(newAccessToken); // Giải mã và cập nhật thông tin người dùng
-        } catch (error) {
-            console.error("Error refreshing access token:", error);
-        }
-    };
-
-    // Kiểm tra token khi component mount
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const token = localStorage.getItem('accessToken');
-            if (token) {
-                const decoded = jwtDecode(token);
-                const expTime = decoded.exp * 1000; // Chuyển đổi thời gian hết hạn từ giây sang mili giây
-                const currentTime = Date.now();
-
-                // Nếu token gần hết hạn, làm mới token
-                if (expTime - currentTime < 5 * 60 * 1000) { // Kiểm tra 5 phút trước khi hết hạn
-                    refreshAccessToken();
-                }
-            }
-        }, 60000); // Kiểm tra mỗi phút
-
-        return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
-    }, []);
+    const { user, accessToken, refreshAccessToken } = useToken();
 
     return (
         <div className='flex-1 space-y-4 p-8 pt-6'>
@@ -119,6 +26,8 @@ const DashBoard = () => {
                                     className="w-16 h-16 rounded-full mt-4"
                                 />
                             )}
+                            <p>Your access token: {accessToken}</p>
+                            <Button onClick={refreshAccessToken}>Refresh Token</Button>
                         </div>
                     ) : (
                         <p>Loading user information...</p>
